@@ -1,0 +1,109 @@
+plugins {
+    id 'org.springframework.boot' version '3.4.2'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'java'
+    id "org.openapi.generator" version "7.10.0"
+}
+
+group = 'pl.pm.transactionprocessor'
+version = '1.0'
+sourceCompatibility = '21'
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    jaxb
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-logging'
+
+    // Database
+    implementation 'com.h2database:h2'
+
+    // Lombok
+    implementation 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // Spring Data JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // OpenAPI
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.4'
+
+    // SOAP
+    implementation 'org.springframework.boot:spring-boot-starter-web-services'
+    implementation 'wsdl4j:wsdl4j'
+    jaxb("org.glassfish.jaxb:jaxb-xjc")
+
+    // Kafka
+    implementation 'org.springframework.kafka:spring-kafka:3.3.2'
+
+    // Testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.4'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.11.4'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.11.4'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+springBoot {
+    mainClass = 'pl.pm.transactionprocessor.Application'
+}
+
+openApiGenerate {
+    generatorName = "spring"
+    inputSpec = "$rootDir/src/main/resources/openapi/openapi.yml"
+    outputDir = "$rootDir/build/openapi/generated"
+    apiPackage = "pl.pm.transactionprocessor.controller"
+    configOptions = [
+            dateLibrary: "java21"
+    ]
+}
+
+task generateApi {
+    group = 'build'
+    description = 'Generates API code from OpenAPI spec'
+    dependsOn openApiGenerate
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+            srcDir 'build/generated-sources/jaxb'
+        }
+    }
+}
+
+task genJaxb {
+    ext.sourcesDir = "$rootDir/build/generated-sources/jaxb"
+    ext.schema = "src/main/resources/wsdl/transactions.xsd"
+
+    outputs.dir sourcesDir
+
+    doLast() {
+        project.ant {
+            taskdef name: "xjc", classname: "com.sun.tools.xjc.XJCTask",
+                    classpath: configurations.jaxb.asPath
+            mkdir(dir: sourcesDir)
+
+            xjc(destdir: sourcesDir, schema: schema) {
+                arg(value: "-wsdl")
+                produces(dir: sourcesDir, includes: "**/*.java")
+            }
+        }
+    }
+}

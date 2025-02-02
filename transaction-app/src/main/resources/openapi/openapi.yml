@@ -1,0 +1,123 @@
+openapi: 3.0.3
+info:
+  title: Transaction API
+  description: API do zarządzania transakcjami
+  version: 1.0.0
+paths:
+  /transactions:
+    post:
+      summary: Tworzy nową transakcję
+      operationId: createTransaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+      responses:
+        '201':
+          description: Transakcja została utworzona
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+    get:
+      summary: Pobiera wszystkie transakcje
+      operationId: getAllTransactions
+      responses:
+        '200':
+          description: Lista wszystkich transakcji
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+  /transactions/{id}:
+    get:
+      summary: Pobiera transakcję na podstawie ID
+      operationId: getTransactionById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Zwraca transakcję o podanym ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '404':
+          description: Transakcja nie znaleziona
+    put:
+      summary: Aktualizuje transakcję na podstawie ID
+      operationId: updateTransaction
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+      responses:
+        '200':
+          description: Transakcja została zaktualizowana
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '404':
+          description: Transakcja nie znaleziona
+    delete:
+      summary: Usuwa transakcję na podstawie ID
+      operationId: deleteTransaction
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Transakcja została usunięta
+        '404':
+          description: Transakcja nie znaleziona
+
+components:
+  schemas:
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        amount:
+          type: number
+          format: float
+        currency:
+          type: string
+        status:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - amount
+        - currency
+        - status
+        - createdAt
+        - updatedAt

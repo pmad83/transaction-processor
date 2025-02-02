@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:h2:file:./data/transactions_db
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true
+  kafka:
+    bootstrap-servers: kafka:9092
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.data.jpa.repository.support.SimpleJpaRepository: INFO
+    pl.pm.transactionprocessor: INFO
