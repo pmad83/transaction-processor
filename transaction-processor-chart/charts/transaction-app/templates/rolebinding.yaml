@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: transaction-processor-leader-election-binding
+  namespace: default
+subjects:
+  - kind: ServiceAccount
+    name: transaction-processor-transaction-app
+    namespace: default
+roleRef:
+  kind: Role
+  name: transaction-processor-leader-election
+  apiGroup: rbac.authorization.k8s.io

@@ -9,9 +9,10 @@ import pl.pm.transactionprocessor.enums.KafkaTopic;
 /*
  * Klasa KafkaProducerConfig wykorzystywana jest do tworzenia topiców na Kafce.
  */
-@Configuration
+//@Configuration
 public class KafkaProducerConfig {
 
+    /*
     @Bean
     public KafkaAdmin.NewTopics topics() {
         return new KafkaAdmin.NewTopics(
@@ -19,5 +20,5 @@ public class KafkaProducerConfig {
                 TopicBuilder.name(KafkaTopic.EXPIRED_TRANSACTIONS).partitions(1).replicas(1).build()
         );
     }
-
+     */
 }

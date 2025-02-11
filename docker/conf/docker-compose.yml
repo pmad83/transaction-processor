@@ -1,7 +1,7 @@
 services:
 
   transaction-app:
-    image: transaction-app:1.0.0
+    image: transaction-app:1.2.0
     build:
       context: ../../transaction-app
       dockerfile: Dockerfile
@@ -25,6 +25,7 @@ services:
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
       - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
 
   kafdrop:
     image: obsidiandynamics/kafdrop:latest

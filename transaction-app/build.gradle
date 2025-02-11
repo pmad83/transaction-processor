@@ -44,6 +44,9 @@ dependencies {
     // Kafka
     implementation 'org.springframework.kafka:spring-kafka:3.3.2'
 
+    // Kubernetes
+    implementation 'io.kubernetes:client-java:22.0.0'
+
     // Testing
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.4'

@@ -1,0 +1,43 @@
+transaction-app:
+  name: transaction-app
+  version: 1.2.0
+  repository: ""
+
+kafka:
+  enabled: true
+  autoCreateTopicsEnable: true
+  replicaCount: 1
+  listeners: "PLAINTEXT://transaction-processor-kafka-0.transaction-processor-kafka-headless.default.svc.cluster.local:9092,CONTROLLER://:9093,INTERNAL://:9094,CLIENT://:9095,EXTERNAL://:9096"
+  listenerSecurityProtocolMap: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,INTERNAL:PLAINTEXT,CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT"
+  advertisedListeners: "PLAINTEXT://transaction-processor-kafka-0.transaction-processor-kafka-headless.default.svc.cluster.local:9092"
+  interBrokerListenerName: "PLAINTEXT"
+  externalAccess:
+    enabled: false
+  persistence:
+    enabled: false
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 30
+    timeoutSeconds: 5
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 30
+    timeoutSeconds: 5
+  provisioning:
+    enabled: true
+    topics:
+      - name: transakcje-zrealizowane
+        partitions: 1
+        replicationFactor: 1
+        config:
+          retention.ms: "86400000" #bug w Kafka https://github.com/spring-projects/spring-kafka/issues/3667
+      - name: transakcje-przeterminowane
+        partitions: 1
+        replicationFactor: 1
+        config:
+          retention.ms: "86400000" #bug w Kafka https://github.com/spring-projects/spring-kafka/issues/3667
+
+zookeeper:
+  enabled: true
+  replicaCount: 1
+  usePersistentStorage: false

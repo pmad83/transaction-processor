@@ -75,3 +75,51 @@ Poniżej znajduje się instrukcja ich uruchomienia.
 2. Uruchomić polecenie (`gradlew test`).
 3. Testy wykonają się automatycznie. 
 4. Raport z testów dostępny będzie w katalogu transaction-app\build\reports\tests\test.
+
+## Uruchomienie aplikacji w klastrze Kubernetes z wykorzystaniem Helm
+
+W celu uruchomienia aplikacji w klastrze Kubernetes, wymagane jest zainstalowanie Helm oraz Kubernetes.
+W przypadku potrzeby pracy w środowisku deweloperskim można skorzystać z Minikube.
+Sposób instalacji tych narzędzi wykracza jednak poza zakres niniejszej dokumentacji.
+
+### Uruchomienie aplikacji
+
+1. W pierwszym kroku uruchamiamy Minikube za pomocą poniższego polecenia:
+   `minikube start`
+
+2. Następnie konieczne jest zbudowanie zależności Helm. W tym celu w katalogu `transaction-processor-chart` należy uruchomić polecenie:
+   `helm dependency build`
+
+3. W katalogu głównym aplikacji uruchamiamy polecenie, aby zainstalować aplikację w klastrze Kubernetes:
+   `helm install transaction-processor ./transaction-processor-chart`
+
+4. Po zainstalowaniu aplikacji, ustawiamy tunel Minikube, który umożliwia dostęp do aplikacji działającej w klastrze Kubernetes z poziomu localhosta. Polecenie:
+   `minikube tunnel`
+
+5. W pliku `hosts` (katalog C:\Windows\System32\drivers\etc\hosts dla Windows) należy dodać wpis:
+   `127.0.0.1 transaction-processor.local`
+
+6. Po zakończeniu pracy, aby usunąć aplikację z klastra Kubernetes, należy wykonać poniższe polecenie:
+   `helm uninstall transaction-processor`
+
+### Informacje o dostępnych komponentach
+
+| Nazwa komponentu | Adres                                                          |
+|------------------|----------------------------------------------------------------|
+| SwaggerUI        | [http://transaction-processor.local/swagger-ui/index.html](http://transaction-processor.local/swagger-ui/index.html) |
+| Usługa REST      | [http://transaction-processor.local/transactions](http://transaction-processor.local/transactions) |
+| WSDL Web Service | [http://transaction-processor.local/ws/transactions.wsdl](http://transaction-processor.local/ws/transactions.wsdl) |
+
+### Weryfikacja komunikatów na Kafka
+
+Aby zweryfikować komunikaty na Kafka, należy wywołać poniższe polecenie, aby uzyskać dostęp do środowiska Kafka:
+
+`kubectl exec -it transaction-processor-kafka-0 -- /bin/bash`
+
+Następnie, aby nasłuchiwać odpowiednie tematy (topics), należy użyć poniższych poleceń:
+
+#### Topic: transakcje-przeterminowane
+`kafka-console-consumer.sh --bootstrap-server transaction-processor-kafka-0.transaction-processor-kafka-headless.default.svc.cluster.local:9092 --topic transakcje-przeterminowane --from-beginning`
+
+#### Topic: transakcje-zrealizowane
+`kafka-console-consumer.sh --bootstrap-server transaction-processor-kafka-0.transaction-processor-kafka-headless.default.svc.cluster.local:9092 --topic transakcje-zrealizowane --from-beginning`

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import pl.pm.transactionprocessor.entity.Transaction;
 import pl.pm.transactionprocessor.enums.TransactionStatus;
 import pl.pm.transactionprocessor.kafka.TransactionKafkaProducer;
+import pl.pm.transactionprocessor.kubernetes.KubernetesLeaderElection;
 import pl.pm.transactionprocessor.repository.TransactionRepository;
 
 import java.time.LocalDateTime;
@@ -27,11 +28,19 @@ public class TransactionSchedulerService {
     @Autowired
     private TransactionKafkaProducer transactionKafkaProducer;
 
+    @Autowired
+    private KubernetesLeaderElection leaderElection;
+
     // Cykliczne zadanie, które uruchamia się co 30 sekund
     @Scheduled(fixedRate = 30000)
     public void processTransactions() {
         LocalDateTime currentTime = LocalDateTime.now();
         logger.info("Scheduler został uruchomiony o godzinie: {}", currentTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+
+        if (!isLeader()) {
+            logger.info("Ta instancja nie jest liderem. Przetwarzanie transakcji nie będzie wykonane.");
+            return;
+        }
 
         // Transakcje zrealizowane w ciągu ostatnich 30 sekund (status: COMPLETED)
         List<Transaction> completedTransactions = transactionRepository
@@ -55,5 +64,9 @@ public class TransactionSchedulerService {
                     transaction.getId(), transaction.getAmount(), transaction.getCurrency(), transaction.getStatus());
             transactionKafkaProducer.sendExpiredTransaction(transaction);
         }
+    }
+
+    private boolean isLeader() {
+        return leaderElection.isLeader();
     }
 }

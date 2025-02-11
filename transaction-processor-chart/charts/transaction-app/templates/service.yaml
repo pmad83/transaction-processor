@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "transaction-processor-chart.fullname" . }}
+  labels:
+    {{- include "transaction-processor-chart.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "transaction-processor-chart.selectorLabels" . | nindent 4 }}
