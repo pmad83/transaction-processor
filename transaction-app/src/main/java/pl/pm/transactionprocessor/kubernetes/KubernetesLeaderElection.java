@@ -31,6 +31,14 @@ public class KubernetesLeaderElection {
     private static final String HOSTNAME_ENV = "HOSTNAME";
 
     public KubernetesLeaderElection() throws IOException {
+
+        if (!isRunningInKubernetes()) {
+            logger.info("Pomijanie KubernetesLeaderElection, ponieważ aplikacja nie działa w klastrze Kubernetes");
+            this.client = null;
+            this.coordinationApi = null;
+            return;
+        }
+
         this.client = Config.defaultClient();
         Configuration.setDefaultApiClient(client);
         this.coordinationApi = new CoordinationV1Api();
@@ -38,8 +46,9 @@ public class KubernetesLeaderElection {
 
     @PostConstruct
     public void init()  {
-
-        runLeaderElection();
+        if (isRunningInKubernetes()) {
+            runLeaderElection();
+        }
     }
 
     public void runLeaderElection()  {
@@ -66,8 +75,13 @@ public class KubernetesLeaderElection {
     }
 
     public boolean isLeader()  {
-        String currentLeader = getCurrentLeader();
-        return currentLeader != null && currentLeader.equals(getPodName());
+        // Sprawdzamy lidera tylko, gdy aplikacja uruchomiona jest w klastrze
+        if (isRunningInKubernetes()) {
+            String currentLeader = getCurrentLeader();
+            return currentLeader != null && currentLeader.equals(getPodName());
+        } else {
+            return true;
+        }
     }
 
     private String getPodName() {
@@ -94,5 +108,9 @@ public class KubernetesLeaderElection {
                 .toList();
 
         return activePods.contains(podName);
+    }
+
+    private boolean isRunningInKubernetes() {
+        return System.getenv("KUBERNETES_SERVICE_HOST") != null;
     }
 }

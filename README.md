@@ -4,14 +4,14 @@
 
 ### Komponenty systemu
 
-1. **Aplikacja transakcyjna** (`transaction-app`)
+1. **Aplikacja transakcyjna** `transaction-app`
     - Aplikacja zbudowana na Spring Boot, obsługująca główną logikę biznesową systemu, w tym interakcję z bazą danych i komunikację przez REST API oraz SOAP.
     - Dostęp do bazy danych realizowany jest przy pomocy Spring Data JPA.
     - Używa Spring Scheduler do wykonywania zaplanowanych zadań.
     - Realizuje komunikację asynchroniczną za pomocą Apache Kafka.
 
 2. **Kafka**
-    - System kolejkowy Apache Kafka służy do przetwarzania transakcji, których producentem jest aplikacja transakcyjna (`transaction-app`).
+    - System kolejkowy Apache Kafka służy do przetwarzania transakcji, których producentem jest aplikacja transakcyjna `transaction-app`.
 
 3. **Baza danych H2**
     - Wbudowana baza danych H2 jest używana głównie w środowisku deweloperskim i testowym.
@@ -41,13 +41,14 @@ W celu uruchomienia aplikacji konieczne jest skompilowanie źródeł oraz zbudow
 Komiplacja źródeł odbywa się automatycznie z wykorzystaniem Gradle. Poniżej opisano kroki konieczne do uruchomienia aplikacji:
 
 1. Uruchomić Docker Desktop.
-2. W konsoli Windows przejść do katalogu (`dev`) w aplikacji np. (`cd C:\git\transaction-processor\dev`).
-3. Uruchomić skrypt (`run-docker-containers.bat`) - plik ten kompiluje źródła, buduje aplikacje, a także buduje wszystkie obrazy i uruchamia kontenery aplikacji.
-4. W celu zatrzymania oraz usunięcia kontenerów i woluminów należy uruchomić skrypt (`cleanup-docker-containers.bat`).
+2. W konsoli Windows przejść do katalogu `dev` w aplikacji np. `cd C:\git\transaction-processor\dev`.
+3. Uruchomić skrypt `run-docker-containers.bat` - plik ten kompiluje źródła, buduje aplikacje, a także buduje wszystkie obrazy i uruchamia kontenery aplikacji.
+4. W celu zatrzymania oraz usunięcia kontenerów i woluminów należy uruchomić skrypt `cleanup-docker-containers.bat`.
 
 ## Dostęp do aplikacji
 
 Poniżej znajduje się lista adresów, pod jakimi dostępne są poszczególne komponenty aplikacji.
+Widok komunikatów dostępny jest dopiero po utworzeniu konkretnych topiców.
 
 | Nazwa komponentu                           | Adres                                                          |
 |--------------------------------------------|----------------------------------------------------------------|
@@ -72,7 +73,7 @@ Przykładowy kod do utworzenia nowej transakcji w usłudze REST:
 Testy integracyjne usług REST zostały zdefiniowane w klasie TransactionApiControllerTest.
 Poniżej znajduje się instrukcja ich uruchomienia.
 1. W wierszu poleceń przejść do katalogu transaction-app projektu.
-2. Uruchomić polecenie (`gradlew test`).
+2. Uruchomić polecenie `gradlew test`.
 3. Testy wykonają się automatycznie. 
 4. Raport z testów dostępny będzie w katalogu transaction-app\build\reports\tests\test.
 
@@ -103,6 +104,8 @@ Sposób instalacji tych narzędzi wykracza jednak poza zakres niniejszej dokumen
    `helm uninstall transaction-processor`
 
 ### Informacje o dostępnych komponentach
+
+Poniżej znajduje się lista adresów, pod jakimi dostępne są poszczególne komponenty aplikacji.
 
 | Nazwa komponentu | Adres                                                          |
 |------------------|----------------------------------------------------------------|

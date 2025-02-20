@@ -1,13 +1,17 @@
 plugins {
     id 'org.springframework.boot' version '3.4.2'
-    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'io.spring.dependency-management' version '1.1.7'
     id 'java'
-    id "org.openapi.generator" version "7.10.0"
+    id "org.openapi.generator" version "7.11.0"
 }
 
 group = 'pl.pm.transactionprocessor'
 version = '1.0'
-sourceCompatibility = '21'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
 
 repositories {
     mavenCentral()
@@ -18,10 +22,12 @@ configurations {
 }
 
 dependencies {
+    // Spring Boot
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-logging'
+    implementation 'org.springframework.boot:spring-boot-starter-web-services'
 
     // Database
     implementation 'com.h2database:h2'
@@ -30,14 +36,10 @@ dependencies {
     implementation 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    // Spring Data JPA
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
     // OpenAPI
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.4'
 
     // SOAP
-    implementation 'org.springframework.boot:spring-boot-starter-web-services'
     implementation 'wsdl4j:wsdl4j'
     jaxb("org.glassfish.jaxb:jaxb-xjc")
 

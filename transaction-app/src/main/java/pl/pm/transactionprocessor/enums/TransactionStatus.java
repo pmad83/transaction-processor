@@ -5,7 +5,6 @@ package pl.pm.transactionprocessor.enums;
  * używane do oznaczania bieżącego stanu transakcji w systemie.
  */
 public class TransactionStatus {
-
     public static final String REGEXP = "PENDING|COMPLETED|EXPIRED";
     public static final String PENDING = "PENDING";
     public static final String COMPLETED = "COMPLETED";
