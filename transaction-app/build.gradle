@@ -1,8 +1,8 @@
 plugins {
-    id 'org.springframework.boot' version '3.4.2'
+    id 'org.springframework.boot' version '3.4.3'
     id 'io.spring.dependency-management' version '1.1.7'
     id 'java'
-    id "org.openapi.generator" version "7.11.0"
+    id "org.openapi.generator" version "7.12.0"
 }
 
 group = 'pl.pm.transactionprocessor'
@@ -37,7 +37,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 
     // OpenAPI
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.4'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5'
 
     // SOAP
     implementation 'wsdl4j:wsdl4j'
@@ -56,8 +56,8 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.11.4'
 }
 
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
+tasks.withType(JavaExec) {
+    jvmArgs = ['-Dfile.encoding=UTF-8']
 }
 
 tasks.named('test') {
@@ -73,15 +73,10 @@ openApiGenerate {
     inputSpec = "$rootDir/src/main/resources/openapi/openapi.yml"
     outputDir = "$rootDir/build/openapi/generated"
     apiPackage = "pl.pm.transactionprocessor.controller"
+    modelPackage = "pl.pm.transactionprocessor.entity"
     configOptions = [
             dateLibrary: "java21"
     ]
-}
-
-task generateApi {
-    group = 'build'
-    description = 'Generates API code from OpenAPI spec'
-    dependsOn openApiGenerate
 }
 
 sourceSets {

@@ -21,6 +21,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Transaction'
+        '400':
+          description: Błąd walidacji danych
     get:
       summary: Pobiera wszystkie transakcje
       operationId: getAllTransactions
@@ -76,6 +78,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Transaction'
+        '400':
+          description: Błąd walidacji danych
         '404':
           description: Transakcja nie znaleziona
     delete:

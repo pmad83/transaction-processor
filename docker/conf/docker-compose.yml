@@ -1,7 +1,7 @@
 services:
 
   transaction-app:
-    image: pmad83/transaction-app:1.3.0
+    image: pmad83/transaction-app:1.4.0
     build:
       context: ../../transaction-app
       dockerfile: Dockerfile
