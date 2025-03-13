@@ -1,3 +1,5 @@
 .idea/
 transaction-app/.gradle/
 transaction-app/build/
+*.lock
+*.tgz

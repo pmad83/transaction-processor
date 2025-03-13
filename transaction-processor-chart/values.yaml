@@ -41,3 +41,13 @@ zookeeper:
   enabled: true
   replicaCount: 1
   usePersistentStorage: false
+
+kafdrop:
+  enabled: true
+  replicaCount: 1
+  kafka:
+    replicaCount: 1
+    bootstrapServers: "transaction-processor-kafka-0.transaction-processor-kafka-headless.default.svc.cluster.local:9092"
+  service:
+    type: LoadBalancer
+    port: 9000

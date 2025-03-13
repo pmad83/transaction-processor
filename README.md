@@ -106,16 +106,20 @@ Sposób instalacji tych narzędzi wykracza jednak poza zakres niniejszej dokumen
 ### Informacje o dostępnych komponentach
 
 Poniżej znajduje się lista adresów, pod jakimi dostępne są poszczególne komponenty aplikacji.
+Widok komunikatów dostępny jest dopiero po utworzeniu konkretnych topiców.
 
-| Nazwa komponentu | Adres                                                          |
-|------------------|----------------------------------------------------------------|
-| SwaggerUI        | [http://transaction-processor.local/swagger-ui/index.html](http://transaction-processor.local/swagger-ui/index.html) |
-| Usługa REST      | [http://transaction-processor.local/transactions](http://transaction-processor.local/transactions) |
-| WSDL Web Service | [http://transaction-processor.local/ws/transactions.wsdl](http://transaction-processor.local/ws/transactions.wsdl) |
+| Nazwa komponentu                           | Adres                                                          |
+|--------------------------------------------|----------------------------------------------------------------|
+| SwaggerUI                                  | [http://transaction-processor.local/swagger-ui/index.html](http://transaction-processor.local/swagger-ui/index.html) |
+| Usługa REST                                | [http://transaction-processor.local/transactions](http://transaction-processor.local/transactions) |
+| WSDL Web Service                           | [http://transaction-processor.local/ws/transactions.wsdl](http://transaction-processor.local/ws/transactions.wsdl) |
+| Kafdrop                                    | [http://transaction-processor.local:9000](http://transaction-processor.local:9000) |
+| Kafdrop (topic transakcje-przeterminowane) | [http://transaction-processor.local:9000/topic/transakcje-przeterminowane](http://transaction-processor.local:9000/topic/transakcje-przeterminowane) |
+| Kafdrop (topic transakcje-zrealizowane)    | [http://transaction-processor.local:9000/topic/transakcje-zrealizowane](http://transaction-processor.local:9000/topic/transakcje-zrealizowane) |
 
 ### Weryfikacja komunikatów na Kafka
 
-Aby zweryfikować komunikaty na Kafka, należy wywołać poniższe polecenie, aby uzyskać dostęp do środowiska Kafka:
+Aby manualnie zweryfikować komunikaty na Kafka, należy wywołać poniższe polecenie, aby uzyskać dostęp do środowiska Kafka:
 
 `kubectl exec -it transaction-processor-kafka-0 -- /bin/bash`
 

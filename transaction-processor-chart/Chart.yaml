@@ -30,3 +30,6 @@ dependencies:
   - name: transaction-app
     version: 1.4.0
     repository: ""
+  - name: kafdrop
+    version: 0.2.0
+    repository: "https://ricardo-aires.github.io/helm-charts"
