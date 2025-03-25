@@ -3,6 +3,7 @@ info:
   title: Transaction API
   description: API do zarządzania transakcjami
   version: 1.0.0
+
 paths:
   /transactions:
     post:

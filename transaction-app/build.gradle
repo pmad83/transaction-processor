@@ -64,10 +64,6 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-springBoot {
-    mainClass = 'pl.pm.transactionprocessor.Application'
-}
-
 openApiGenerate {
     generatorName = "spring"
     inputSpec = "$rootDir/src/main/resources/openapi/openapi.yml"
@@ -75,7 +71,8 @@ openApiGenerate {
     apiPackage = "pl.pm.transactionprocessor.controller"
     modelPackage = "pl.pm.transactionprocessor.entity"
     configOptions = [
-            dateLibrary: "java21"
+            dateLibrary: "java21",
+            useJakartaEe: "true"
     ]
 }
 

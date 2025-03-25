@@ -5,14 +5,16 @@
  */
 package pl.pm.transactionprocessor.controller;
 
-import jakarta.validation.Valid;
 import pl.pm.transactionprocessor.entity.Transaction;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import org.springframework.http.HttpStatus;
@@ -21,14 +23,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.NativeWebRequest;
-import java.util.List;
-import java.util.Optional;
-import javax.annotation.Generated;
+import org.springframework.web.multipart.MultipartFile;
 
-/*
- * Interfejs TransactionsApi wygenerowany automatycznie przez OpenAPI Generator.
- */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-03-03T19:55:48.759661100+01:00[Europe/Berlin]", comments = "Generator version: 7.12.0")
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import jakarta.annotation.Generated;
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-03-25T20:24:51.030596300+01:00[Europe/Berlin]", comments = "Generator version: 7.12.0")
 @Validated
 @Tag(name = "transactions", description = "the transactions API")
 public interface TransactionsApi {
@@ -64,17 +68,10 @@ public interface TransactionsApi {
     default ResponseEntity<Transaction> createTransaction(
         @Parameter(name = "Transaction", description = "", required = true) @Valid @RequestBody Transaction transaction
     ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"createdAt\" : \"2000-01-23T04:56:07.000+00:00\", \"amount\" : 6.0274563, \"currency\" : \"currency\", \"id\" : 0, \"status\" : \"status\", \"updatedAt\" : \"2000-01-23T04:56:07.000+00:00\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
     }
+
 
     /**
      * DELETE /transactions/{id} : Usuwa transakcję na podstawie ID
@@ -100,7 +97,9 @@ public interface TransactionsApi {
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Long id
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
     }
+
 
     /**
      * GET /transactions : Pobiera wszystkie transakcje
@@ -125,17 +124,10 @@ public interface TransactionsApi {
     default ResponseEntity<List<Transaction>> getAllTransactions(
         
     ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "[ { \"createdAt\" : \"2000-01-23T04:56:07.000+00:00\", \"amount\" : 6.0274563, \"currency\" : \"currency\", \"id\" : 0, \"status\" : \"status\", \"updatedAt\" : \"2000-01-23T04:56:07.000+00:00\" }, { \"createdAt\" : \"2000-01-23T04:56:07.000+00:00\", \"amount\" : 6.0274563, \"currency\" : \"currency\", \"id\" : 0, \"status\" : \"status\", \"updatedAt\" : \"2000-01-23T04:56:07.000+00:00\" } ]";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
     }
+
 
     /**
      * GET /transactions/{id} : Pobiera transakcję na podstawie ID
@@ -163,17 +155,10 @@ public interface TransactionsApi {
     default ResponseEntity<Transaction> getTransactionById(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Long id
     ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"createdAt\" : \"2000-01-23T04:56:07.000+00:00\", \"amount\" : 6.0274563, \"currency\" : \"currency\", \"id\" : 0, \"status\" : \"status\", \"updatedAt\" : \"2000-01-23T04:56:07.000+00:00\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
     }
+
 
     /**
      * PUT /transactions/{id} : Aktualizuje transakcję na podstawie ID
@@ -206,16 +191,8 @@ public interface TransactionsApi {
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Long id,
         @Parameter(name = "Transaction", description = "", required = true) @Valid @RequestBody Transaction transaction
     ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"createdAt\" : \"2000-01-23T04:56:07.000+00:00\", \"amount\" : 6.0274563, \"currency\" : \"currency\", \"id\" : 0, \"status\" : \"status\", \"updatedAt\" : \"2000-01-23T04:56:07.000+00:00\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
     }
 
 }
